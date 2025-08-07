@@ -29,15 +29,12 @@ async function apiRequest(path, { method = "GET", body = null, auth = false } = 
 }
 
 // ===== AUTH =====
-async function register({ name, email, password, phone }) {
-  return apiRequest("/api/auth/register", {
-    method: "POST",
-    body: { name, email, password, phone }
-  });
+async function register(email, password) {
+  return apiRequest("/api/users/register", { method: "POST", body: { email, password } });
 }
 
 async function login(email, password) {
-  const data = await apiRequest("/api/auth/login", { method: "POST", body: { email, password } });
+  const data = await apiRequest("/api/users/login", { method: "POST", body: { email, password } });
   if (data.token) setToken(data.token);
   return data;
 }
