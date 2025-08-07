@@ -389,7 +389,7 @@
   // Backend-driven authentication and navigation logic
   async function getCurrentUser() {
     try {
-    const res = await fetch('https://invex-public.onrender.com/api/user/me', { credentials: 'include' });
+    const res = await fetch('https://invex-public.onrender.com/api/users/me', { credentials: 'include' });
       if (!res.ok) return null;
       return await res.json();
     } catch {
@@ -461,7 +461,7 @@
       authBtn.href = '#';
       authBtn.onclick = async (e) => {
         e.preventDefault();
-        await fetch('https://invex-public.onrender.com/api/user/logout', { method: 'POST', credentials: 'include' });
+        await fetch('https://invex-public.onrender.com/api/users/logout', { method: 'POST', credentials: 'include' });
         location.href = 'index.html';
       }
       if (registerBtn) registerBtn.style.display = 'none';
