@@ -12,9 +12,14 @@ import depositRoutes from './routes/deposit.js';
 
 const app = express();
 dotenv.config();
-// Set CORS to allow credentials and correct origin
+// Set CORS to allow credentials and correct origin, including GitHub Pages
 app.use(cors({
-  origin: ['http://localhost:5500', 'http://localhost:8000'], // Allow both common dev ports
+  origin: [
+    'http://localhost:5500',
+    'http://localhost:8000',
+    'https://bosibosiotr111-cmyk.github.io',
+    'https://bosibosiotr111-cmyk.github.io/invex-public'
+  ],
   credentials: true
 }));
 app.use(express.json());
