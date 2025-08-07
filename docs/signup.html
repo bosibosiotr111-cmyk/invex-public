@@ -618,15 +618,16 @@
       button.textContent = 'Creating Account...';
 
       try {
-        // Register user via backend API (full backend URL for cross-port requests)
-        const res = await fetch('http://localhost:5000/api/users/register', {
+        // Register user via backend API (new endpoint, include phone)
+        const res = await fetch('https://invex-public.onrender.com/api/users/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({
             name: name.value.trim(),
             email: email.value.trim(),
-            password: password.value.trim()
+            password: password.value.trim(),
+            phone: phone.value.trim()
           })
         });
         const data = await res.json();
@@ -694,7 +695,6 @@
     // Set copyright year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-  <script src="api.js"></script>
   <!-- Removed duplicate registration script and api.js include -->
 </body>
 </html>
