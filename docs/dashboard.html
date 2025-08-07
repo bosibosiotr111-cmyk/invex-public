@@ -34,7 +34,7 @@
   // Backend-driven authentication and user info
   async function getCurrentUser() {
     try {
-      const res = await fetch('https://invex-public.onrender.com/api/users/me', { credentials: 'include' });
+      const res = await fetch('https://invex-public.onrender.com/api/auth/me', { credentials: 'include' });
       if (!res.ok) return null;
       return await res.json();
     } catch {
