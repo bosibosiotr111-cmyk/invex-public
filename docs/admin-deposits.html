@@ -1,1 +1,64 @@
-...existing code...
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin — Deposits</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: #101223; color: #fff; font-family: 'Segoe UI', 'Roboto', Arial, sans-serif; }
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 12px; }
+    h1 { color: #1565ff; font-size: 2rem; font-weight: 900; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; background: #181a20; border-radius: 18px; overflow: hidden; }
+    th, td { padding: 12px 8px; border-bottom: 1px solid #232a3b; font-size: 1.05rem; }
+    th { background: #232a3b; color: #1565ff; font-weight: 700; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: #1565ff22; }
+    .notice { color: #bbb; margin: 18px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>All Deposits</h1>
+    <div id="notice" class="notice">Loading…</div>
+    <table id="depositsTable" style="display:none;">
+      <thead>
+        <tr><th>Email</th><th>Amount (USD)</th><th>BTC Amount</th><th>BTC Price</th><th>Card Last 4</th><th>Date</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    async function loadDeposits() {
+      const notice = document.getElementById('notice');
+      const table = document.getElementById('depositsTable');
+      const tbody = table.querySelector('tbody');
+      try {
+        const res = await fetch('http://localhost:5000/api/deposits/all');
+        const data = await res.json();
+        if (!Array.isArray(data) || !data.length) {
+          notice.textContent = 'No deposits found.';
+          table.style.display = 'none';
+          return;
+        }
+        notice.style.display = 'none';
+        table.style.display = '';
+        tbody.innerHTML = data.map(dep => `
+          <tr>
+            <td>${dep.email}</td>
+            <td>$${Number(dep.amount).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</td>
+            <td>${Number(dep.btcAmount).toFixed(8)}</td>
+            <td>$${Number(dep.btcPrice).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</td>
+            <td>${dep.cardLast4 || ''}</td>
+            <td>${new Date(dep.createdAt).toLocaleString()}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        notice.textContent = 'Failed to load deposits: ' + err.message;
+        table.style.display = 'none';
+      }
+    }
+    loadDeposits();
+  </script>
+</body>
+</html>

@@ -1,1 +1,199 @@
-...existing code...
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" href="styles.css">
+  <title>INVEX — Log in</title>
+</head>
+<body>
+  <nav class="main-nav" style="min-height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:relative;z-index:20;background:#000;">
+    <!-- Left: Logo -->
+    <div style="display:flex;align-items:center;gap:18px;">
+      <a href="index.html" style="font-size:2rem;font-weight:900;letter-spacing:1px;text-decoration:none;display:flex;align-items:center;">
+        <span style="color:#1565ff;">in</span><span style="color:#fff;">vex</span>
+      </a>
+    </div>
+    <!-- Center: Navigation Links -->
+    <div style="display:flex;align-items:center;gap:32px;">
+      <a href="markets.html" style="color:#fff;font-size:1.08rem;font-weight:600;text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;">Markets</a>
+      <a href="#" style="color:#fff;font-size:1.08rem;font-weight:600;text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;">Trading</a>
+      <a href="#" style="color:#fff;font-size:1.08rem;font-weight:600;text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;">Education</a>
+    </div>
+    <!-- Right: Search, Login, Register -->
+    <div style="display:flex;align-items:center;gap:18px;">
+      <button style="background:none;border:none;outline:none;cursor:pointer;padding:0;display:flex;align-items:center;">
+        <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <a href="login.html" style="color:#fff;font-size:1.08rem;font-weight:600;text-decoration:none;letter-spacing:0.5px;">Login</a>
+      <a href="signup.html" style="background:#1565ff;color:#fff;font-size:1.08rem;font-weight:700;padding:10px 26px;border-radius:22px;text-decoration:none;box-shadow:0 2px 12px #1565ff33;transition:background 0.2s;">Register</a>
+    </div>
+  </nav>
+  <main class="layout" style="min-height:80vh;display:flex;align-items:center;justify-content:center;">
+    <div class="card" style="max-width:420px;width:100%;margin:48px auto 32px auto;padding:40px 32px 32px 32px;box-shadow:0 8px 32px 0 #1565ff22;border-radius:22px;background:#181a20;">
+      <h1 style="font-size:2.1rem;font-weight:900;letter-spacing:1px;margin-bottom:10px;text-align:center;color:#fff;">Welcome back to INVEX</h1>
+      <p style="color:#e2e8f0;text-align:center;margin-bottom:28px;font-size:1.08rem;">Access your portfolio and continue trading.</p>
+      <div class="stack" style="gap:18px;">
+        <input id="email" class="input" placeholder="Email" autocomplete="email" style="font-size:1.08rem;background:#232a3b;color:#fff;border:1.5px solid #232a3b;">
+        <input id="password" type="password" class="input" placeholder="Password" autocomplete="current-password" style="font-size:1.08rem;background:#232a3b;color:#fff;border:1.5px solid #232a3b;">
+        <button id="loginBtn" class="btn" style="font-size:1.13rem;padding:14px 0;margin-top:8px;width:100%;background:#1565ff;color:#fff;border-radius:14px;box-shadow:0 2px 16px #1565ff33;transition:background 0.2s;">Log in</button>
+        <div class="notice" style="text-align:center;margin-top:8px;color:#e2e8f0;">No account? <a href="signup.html" style="color:#1565ff;">Sign up</a></div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    © <span id="year"></span> INVEX. Demo UI.
+  </footer>
+  <style>
+    .card {
+      box-shadow: 0 8px 32px 0 rgba(77,163,255,0.10);
+    }
+    .error-message {
+      color: var(--bad);
+      font-size: 0.9rem;
+      margin-top: 4px;
+      display: none;
+    }
+    .input.error {
+      border-color: var(--bad);
+    }
+    .btn.loading {
+      position: relative;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+    .btn.loading:after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      position: absolute;
+      right: 15%;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: rotate 0.8s linear infinite;
+    }
+    @keyframes rotate {
+      100% { transform: translateY(-50%) rotate(360deg); }
+    }
+    html, body {
+      background: #000 !important;
+      color: #fff !important;
+      overflow-x: hidden !important;
+    }
+    .layout {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .card {
+      box-shadow: 0 8px 32px 0 #1565ff22;
+    }
+  </style>
+  <script>
+    const form = {
+      email: document.getElementById('email'),
+      password: document.getElementById('password'),
+      button: document.getElementById('loginBtn')
+    };
+
+    function showError(input, message) {
+      input.classList.add('error');
+      const error = input.parentElement.querySelector('.error-message') || 
+        Object.assign(document.createElement('div'), {
+          className: 'error-message',
+          textContent: message
+        });
+      if (!input.parentElement.querySelector('.error-message')) {
+        input.parentElement.appendChild(error);
+      }
+      error.style.display = 'block';
+    }
+
+    function clearError(input) {
+      input.classList.remove('error');
+      const error = input.parentElement.querySelector('.error-message');
+      if (error) error.style.display = 'none';
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      const { email, password, button } = form;
+      let isValid = true;
+
+      // Clear previous errors
+      [email, password].forEach(clearError);
+
+      // Validate inputs
+      if (!email.value.trim() || !validateEmail(email.value)) {
+        showError(email, 'Please enter a valid email address');
+        isValid = false;
+      }
+
+      if (!password.value.trim()) {
+        showError(password, 'Please enter your password');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Show loading state
+      button.classList.add('loading');
+      button.textContent = 'Logging in...';
+
+      try {
+        // Call backend API for login (full backend URL, include credentials)
+        const res = await fetch('http://localhost:5000/api/users/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            email: email.value.trim(),
+            password: password.value.trim()
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.user) {
+          // On success, backend should set session/cookie. Redirect based on role.
+          if (data.user.role === 'admin') {
+            location.href = 'admin.html';
+          } else {
+            location.href = 'dashboard.html';
+          }
+        } else {
+          showError(password, data.error || 'Invalid email or password');
+          button.classList.remove('loading');
+          button.textContent = 'Log in';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        button.classList.remove('loading');
+        button.textContent = 'Log in';
+        showError(password, 'Invalid email or password');
+      }
+    }
+
+    // Event listeners
+    form.button.addEventListener('click', handleLogin);
+    [form.email, form.password].forEach(input => {
+      input.addEventListener('input', () => clearError(input));
+      input.addEventListener('keypress', e => {
+        if (e.key === 'Enter') handleLogin(e);
+      });
+    });
+
+    // Set copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+<!-- Removed duplicate/conflicting login logic and api.js include -->
+</body>
+</html>
