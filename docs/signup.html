@@ -618,7 +618,7 @@
       button.textContent = 'Creating Account...';
 
       try {
-        // Register user via backend API (new endpoint)
+        // Register user via backend API (new endpoint, include phone)
         const res = await fetch('https://invex-public.onrender.com/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -626,7 +626,8 @@
           body: JSON.stringify({
             name: name.value.trim(),
             email: email.value.trim(),
-            password: password.value.trim()
+            password: password.value.trim(),
+            phone: phone.value.trim()
           })
         });
         const data = await res.json();
