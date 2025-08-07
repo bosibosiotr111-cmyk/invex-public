@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://invex-public.onrender.com";
 
 // ===== TOKEN =====
 function getToken() {
