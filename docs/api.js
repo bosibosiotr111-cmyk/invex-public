@@ -1,26 +1,13 @@
+
 const API_BASE = "https://invex-public.onrender.com";
 
-// ===== TOKEN =====
-function getToken() {
-  return localStorage.getItem("token");
-}
-function setToken(token) {
-  localStorage.setItem("token", token);
-}
-function clearToken() {
-  localStorage.removeItem("token");
-}
-
-// ===== GENERIC API REQUEST =====
-async function apiRequest(path, { method = "GET", body = null, auth = false } = {}) {
+// ===== GENERIC API REQUEST (cookie-based auth) =====
+async function apiRequest(path, { method = "GET", body = null } = {}) {
   const headers = { "Content-Type": "application/json" };
-  if (auth) {
-    const token = getToken();
-    if (token) headers.Authorization = `Bearer ${token}`;
-  }
   const res = await fetch(API_BASE + path, {
     method,
     headers,
+    credentials: 'include',
     body: body ? JSON.stringify(body) : undefined,
   });
   const data = await res.json().catch(() => ({}));
@@ -30,23 +17,21 @@ async function apiRequest(path, { method = "GET", body = null, auth = false } = 
 
 // ===== AUTH =====
 async function register({ name, email, password, phone }) {
-  return apiRequest("/api/auth/register", {
+  return apiRequest("/api/users/register", {
     method: "POST",
     body: { name, email, password, phone }
   });
 }
 
 async function login(email, password) {
-  const data = await apiRequest("/api/auth/login", { method: "POST", body: { email, password } });
-  if (data.token) setToken(data.token);
-  return data;
+  return apiRequest("/api/users/login", { method: "POST", body: { email, password } });
 }
 
 // ===== PORTFOLIO =====
 async function getPortfolio(email) {
-  return apiRequest(`/api/portfolio/${email}`, { auth: true });
+  return apiRequest(`/api/portfolios/${email}`);
 }
 
 async function updatePortfolio(email, portfolio) {
-  return apiRequest(`/api/portfolio/${email}`, { method: "POST", auth: true, body: portfolio });
+  return apiRequest(`/api/portfolios/${email}`, { method: "POST", body: portfolio });
 }
