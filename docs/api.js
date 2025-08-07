@@ -29,8 +29,11 @@ async function apiRequest(path, { method = "GET", body = null, auth = false } = 
 }
 
 // ===== AUTH =====
-async function register(email, password) {
-  return apiRequest("/api/auth/register", { method: "POST", body: { email, password } });
+async function register({ name, email, password, phone }) {
+  return apiRequest("/api/auth/register", {
+    method: "POST",
+    body: { name, email, password, phone }
+  });
 }
 
 async function login(email, password) {
