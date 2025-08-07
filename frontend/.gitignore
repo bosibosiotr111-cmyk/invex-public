@@ -1,0 +1,24 @@
+# Node modules
+backend/node_modules/
+
+# Environment variables
+backend/.env
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+build/
+
+# Vite/React
+invex-frontend/node_modules/
+invex-frontend/dist/
+
+# Misc
+.env.local
+.env.*.local
