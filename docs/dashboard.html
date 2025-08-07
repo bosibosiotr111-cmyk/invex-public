@@ -34,7 +34,7 @@
   // Backend-driven authentication and user info
   async function getCurrentUser() {
     try {
-      const res = await fetch('http://localhost:5000/api/users/me', { credentials: 'include' });
+      const res = await fetch('https://invex-public.onrender.com/api/users/me', { credentials: 'include' });
       if (!res.ok) return null;
       return await res.json();
     } catch {
@@ -88,7 +88,7 @@
       authBtn.href = '#';
       authBtn.onclick = async (e) => {
         e.preventDefault();
-        await fetch('http://localhost:5000/api/users/logout', { method: 'POST', credentials: 'include' });
+        await fetch('https://invex-public.onrender.com/api/users/logout', { method: 'POST', credentials: 'include' });
         location.href = 'index.html';
       }
       if (registerBtn) registerBtn.style.display = 'none';
@@ -101,7 +101,7 @@
         logoutBtn.style.display = 'inline-block';
         logoutBtn.onclick = async (e) => {
           e.preventDefault();
-          await fetch('http://localhost:5000/api/users/logout', { method: 'POST', credentials: 'include' });
+          await fetch('https://invex-public.onrender.com/api/users/logout', { method: 'POST', credentials: 'include' });
           location.href = 'index.html';
         };
       }
@@ -134,7 +134,7 @@
     if (mainContent) mainContent.style.display = '';
     if (loginNotice) loginNotice.style.display = 'none';
     try {
-      const res = await fetch(`http://localhost:5000/api/portfolios/${user.email}`, {
+      const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${user.email}`, {
         credentials: 'include'
       });
       const data = await res.json();

@@ -265,7 +265,7 @@
     // Backend-driven authentication and user info
     async function getCurrentUser() {
       try {
-        const res = await fetch('http://localhost:5000/api/users/me', { credentials: 'include' });
+        const res = await fetch('https://invex-public.onrender.com/api/users/me', { credentials: 'include' });
         if (!res.ok) return null;
         return await res.json();
       } catch {
@@ -314,7 +314,7 @@ async function renderDemoOrders() {
     async function renderRealOrders() {
       const ordersTable = document.getElementById('ordersTable').querySelector('tbody');
       try {
-        const res = await fetch('http://localhost:5000/api/orders', { credentials: 'include' });
+        const res = await fetch('https://invex-public.onrender.com/api/orders', { credentials: 'include' });
         if (!res.ok) throw new Error('Not logged in');
         const orders = await res.json();
         ordersTable.innerHTML = (orders && orders.length)
@@ -365,7 +365,7 @@ async function renderDemoOrders() {
         authBtn.href = '#';
         authBtn.onclick = async (e) => {
           e.preventDefault();
-          await fetch('http://localhost:5000/api/users/logout', { method: 'POST', credentials: 'include' });
+          await fetch('https://invex-public.onrender.com/api/users/logout', { method: 'POST', credentials: 'include' });
           location.href = 'index.html';
         }
         if (registerBtn) registerBtn.style.display = 'none';
@@ -380,7 +380,7 @@ async function renderDemoOrders() {
           const amount = orderForm.amount.value;
           const leverage = orderForm.leverage.value;
           try {
-            const res = await fetch('http://localhost:5000/api/orders', {
+            const res = await fetch('https://invex-public.onrender.com/api/orders', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               credentials: 'include',

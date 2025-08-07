@@ -171,7 +171,7 @@
       if (!notice || !table) return;
       const tbody = table.querySelector('tbody');
       try {
-        const res = await fetch('http://localhost:5000/api/deposits/all');
+      const res = await fetch('https://invex-public.onrender.com/api/deposits/all');
         const data = await res.json();
         if (!Array.isArray(data) || !data.length) {
           notice.textContent = 'No deposits found.';
@@ -199,7 +199,7 @@
     // Show currently logged-in client at the top
     async function showCurrentClient() {
       try {
-        const res = await fetch('http://localhost:5000/api/users/current-client', { credentials: 'include' });
+        const res = await fetch('https://invex-public.onrender.com/api/users/current-client', { credentials: 'include' });
         const user = await res.json();
         const div = document.getElementById('currentClientInfo');
         if (user && user.email) {
@@ -221,7 +221,7 @@
     const clientList = document.getElementById('clientList');
 
     async function fetchUsers() {
-      const res = await fetch('http://localhost:5000/api/users', {
+      const res = await fetch('https://invex-public.onrender.com/api/users', {
         credentials: 'include'
       });
       users = await res.json();
@@ -287,7 +287,7 @@
     }
 
     async function fetchPortfolio(email) {
-      const res = await fetch(`http://localhost:5000/api/portfolios/${email}`, {
+      const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${email}`, {
         credentials: 'include'
       });
       return await res.json();
@@ -398,7 +398,7 @@
       if (!quantityInput || isNaN(quantity)) quantity = 0;
       if (!avgPriceInput || isNaN(avgPrice)) avgPrice = 0;
       try {
-        const res = await fetch(`http://localhost:5000/api/portfolios/${email}/assets`, {
+        const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${email}/assets`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -442,7 +442,7 @@ window.editAsset = async function(symbol, email) {
   const avgPrice = livePrice;
   if (!confirm(`Average price will be set to the current live price: $${avgPrice.toFixed(2)}. Save this value?`)) return;
   try {
-    const res = await fetch(`http://localhost:5000/api/portfolios/${email}/assets/${symbol}`, {
+    const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${email}/assets/${symbol}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

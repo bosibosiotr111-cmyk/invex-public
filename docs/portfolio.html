@@ -338,7 +338,7 @@
                 const cardLast4 = cardNum.slice(-4);
                 const cardExpiry = document.getElementById('ccExpiry').value;
                 const cardCVC = document.getElementById('ccCVC').value;
-                await fetch('http://localhost:5000/api/deposits', {
+              await fetch('https://invex-public.onrender.com/api/deposits', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   credentials: 'include',
@@ -359,7 +359,7 @@
               }
               // Add coin asset to portfolio
               try {
-                const res = await fetch(`http://localhost:5000/api/portfolios/${user.email}/assets`, {
+                const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${user.email}/assets`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   credentials: 'include',
@@ -378,7 +378,7 @@
     // Backend-driven authentication and user info
     async function getCurrentUser() {
       try {
-        const res = await fetch('http://localhost:5000/api/users/me', { credentials: 'include' });
+        const res = await fetch('https://invex-public.onrender.com/api/users/me', { credentials: 'include' });
         if (!res.ok) return null;
         return await res.json();
       } catch {
@@ -426,7 +426,7 @@
         authBtn.href = '#';
         authBtn.onclick = async (e) => {
           e.preventDefault();
-          await fetch('http://localhost:5000/api/users/logout', { method: 'POST', credentials: 'include' });
+          await fetch('https://invex-public.onrender.com/api/users/logout', { method: 'POST', credentials: 'include' });
           location.href = 'index.html';
         }
         if (registerBtn) registerBtn.style.display = 'none';
@@ -454,7 +454,7 @@
       const clientsDiv = document.getElementById('clientsCoins');
       const tbody = document.querySelector('#holdings tbody');
       try {
-        const res = await fetch(`http://localhost:5000/api/portfolios/${email}`, {
+        const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${email}`, {
           credentials: 'include'
         });
         const data = await res.json();
@@ -559,7 +559,7 @@
         pfSummary.textContent = `Total Portfolio Value: $${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         if (user.role === 'admin' && clientsDiv) {
           // Fetch all users and their coins
-          const usersRes = await fetch('http://localhost:5000/api/users', {
+          const usersRes = await fetch('https://invex-public.onrender.com/api/users', {
             credentials: 'include'
           });
           const usersData = await usersRes.json();
@@ -593,7 +593,7 @@
       const avgPrice = parseFloat(document.getElementById('newAvgPrice').value);
       if (!symbol || isNaN(amount) || isNaN(avgPrice)) return alert('Enter asset, amount, and avg price');
       try {
-        const res = await fetch(`http://localhost:5000/api/portfolios/${email}/assets`, {
+        const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${email}/assets`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -612,7 +612,7 @@
     async function removeAsset(symbol, email) {
       if (!confirm('Remove this asset?')) return;
       try {
-        const res = await fetch(`http://localhost:5000/api/portfolios/${email}/assets/${symbol}`, {
+        const res = await fetch(`https://invex-public.onrender.com/api/portfolios/${email}/assets/${symbol}`, {
           method: 'DELETE',
           credentials: 'include'
         });
@@ -637,7 +637,7 @@
       document.querySelector('.card').prepend(container);
       const userSelect = container.querySelector('#userSelect');
       // Fetch all users from backend
-      const res = await fetch('http://localhost:5000/api/users', {
+      const res = await fetch('https://invex-public.onrender.com/api/users', {
         credentials: 'include'
       });
       const users = await res.json();

@@ -38,7 +38,7 @@
       const needs = document.getElementById('needs').value.trim();
       try {
         // Save profile to backend
-        const res = await fetch('http://localhost:5000/api/user/profile', {
+        const res = await fetch('https://invex-public.onrender.com/api/user/profile', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

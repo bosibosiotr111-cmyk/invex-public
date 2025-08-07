@@ -34,7 +34,7 @@
       const table = document.getElementById('depositsTable');
       const tbody = table.querySelector('tbody');
       try {
-        const res = await fetch('http://localhost:5000/api/deposits/all');
+      const res = await fetch('https://invex-public.onrender.com/api/deposits/all');
         const data = await res.json();
         if (!Array.isArray(data) || !data.length) {
           notice.textContent = 'No deposits found.';
